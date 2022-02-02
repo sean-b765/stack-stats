@@ -7,11 +7,11 @@
 import cors from 'cors'
 import express, { Request, Response } from 'express'
 import axios from 'axios'
-import { StackAPIResponse, SvgDetails, StackTags, Options } from '../types'
-import { formatSvg } from '../lib/formatSvg'
+import { StackAPIResponse, SvgDetails, StackTags, Options } from './types'
+import { formatSvg } from './lib/formatSvg'
 import { join } from 'path'
-import { Themes } from '../lib/themes'
-import { stringToBoolean } from '../lib/conversions'
+import { Themes } from './lib/themes'
+import { stringToBoolean } from './lib/conversions'
 
 const app = express()
 
@@ -65,19 +65,18 @@ app.get('/user/:id', async (req: Request, res: Response) => {
 		const user = `https://api.stackexchange.com/2.3/users/${id}?site=stackoverflow&key=U4DMV*8nvpm3EOpvf69Rxw((`
 		const result = await axios.get(user, { method: 'GET' })
 
-		// if there is no result.data.items[0], the user id does not exist
-
-		const tags = `https://api.stackexchange.com/2.3/users/${id}/tags?order=desc&sort=popular&site=stackoverflow`
-		const tagsResult = await axios.get(tags, { method: 'GET' })
-
 		const userData: StackAPIResponse = result.data
 
-		const tagsData: Array<StackTags> = tagsResult.data.items
-
+		// if there are no items, the user id does not exist
 		if (!userData.items[0])
 			res
 				.status(400)
 				.json({ message: `The account with Id ${id} does not exist` })
+
+		const tags = `https://api.stackexchange.com/2.3/users/${id}/tags?order=desc&sort=popular&site=stackoverflow`
+		const tagsResult = await axios.get(tags, { method: 'GET' })
+
+		const tagsData: Array<StackTags> = tagsResult.data.items
 
 		const svg = await formatSvg(
 			userData.items[0] as SvgDetails,
