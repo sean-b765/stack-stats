@@ -7,4 +7,7 @@ export const Themes = {
 		reputation: '#62cc84',
 	} as ThemeType,
 	DARK: {} as ThemeType,
+	LIGHT: {} as ThemeType,
+	CYBERPUNK: {} as ThemeType,
+	RETRO: {} as ThemeType,
 }

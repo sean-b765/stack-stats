@@ -1,16 +1,19 @@
-import { SvgDetails, StackTags, ThemeType } from '../types'
+import { SvgDetails, StackTags, ThemeType, Options } from '../types'
 import axios from 'axios'
 import { Themes } from './themes'
 
-const avatarRadius = 50
-const avatarOffsetX = 30
-const avatarOffsetY = 50
+let avatarRadius = 50
+let avatarOffsetX = 30
+let avatarOffsetY = 50
 
 export const formatSvg = async (
 	user: SvgDetails,
 	_tags: Array<StackTags>,
-	theme: ThemeType
+	theme: ThemeType,
+	options: Options
 ) => {
+	if (options.rounded) avatarOffsetX = 50
+
 	const tags = [_tags[0], _tags[1], _tags[2]]
 
 	return `
@@ -73,25 +76,53 @@ export const formatSvg = async (
     </style>
     </defs>
 
-    <rect x="0" y="0" width="500" height="200" rx="5" ry="5" fill="url(#gradient)" />
+    <rect x="0" y="0" width="500" height="200" rx="${
+			options.rounded ? '100' : '5'
+		}" ry="${options.rounded ? '100' : '5'}" fill="url(#gradient)" />
     
     ${await formatImage(user.profile_image)}
-    ${formatName(user.display_name)}
-    ${formatReputation(user.reputation)}
-    ${formatBadges(user.badge_counts)}
+    ${formatName(
+			user.display_name,
+			options.rounded
+				? avatarOffsetX * 2 + avatarRadius * 2 - 20
+				: avatarOffsetX * 2 + avatarRadius * 2
+		)}
+    ${formatReputation(
+			user.reputation,
+			options.rounded
+				? avatarOffsetX * 2 + avatarRadius * 2 - 20
+				: avatarOffsetX * 2 + avatarRadius * 2
+		)}
 
-    <g>
-      <text class='accent anim anim--3' x="${
-				avatarOffsetX * 2 + avatarRadius * 2
-			}" y="${avatarOffsetY + 85}" font-size='0.8rem'>#</text>
-        <text class='accent anim anim--3' x="${
-					avatarOffsetX * 2 + avatarRadius * 2 + 15
-				}" y="${avatarOffsetY + 85}" font-size='0.8rem'>${tags[0].name}, ${
-		tags[1].name
-	}, ${tags[2].name}
+    ${
+			options.showBadges &&
+			formatBadges(user.badge_counts, 500 - avatarOffsetX * 2 + 25)
+		}
+    ${
+			options.showTags &&
+			formatTags(
+				tags,
+				options.rounded
+					? avatarOffsetX * 2 + avatarRadius * 2 - 20
+					: avatarOffsetX * 2 + avatarRadius * 2
+			)
+		}
+    
+    </svg>`
+}
+
+const formatTags = (tags: Array<StackTags>, x: number) => {
+	return `
+  <g>
+      <text class='accent anim anim--3' x="${x}" y="${
+		avatarOffsetY + 85
+	}" font-size='0.6rem'>#</text>
+        <text class='accent anim anim--3' x="${x + 15}" y="${
+		avatarOffsetY + 85
+	}" font-size='0.75rem'>${tags[0].name}, ${tags[1].name}, ${tags[2].name}
       </text>
     </g>
-    </svg>`
+    `
 }
 
 const formatTheme = (theme: ThemeType) => {
@@ -129,52 +160,55 @@ const formatImage = async (url: string) => {
     </image>`
 }
 
-const formatName = (text: string) => {
-	return `<text class='primary anim anim--1' x="${
-		avatarOffsetX * 2 + avatarRadius * 2
-	}" y="${avatarOffsetY + 30}" font-size='1.1rem'>
+const formatName = (text: string, x: number) => {
+	return `<text class='primary anim anim--1' x="${x}" y="${
+		avatarOffsetY + 30
+	}" font-size='1.1rem'>
     ${text}
   </text>`
 }
 
-const formatReputation = (reputation: number) => {
+const formatReputation = (reputation: number, x: number) => {
 	return `
-  <text class='rep anim anim--2' x="${
-		avatarOffsetX * 2 + avatarRadius * 2
-	}" y="${avatarOffsetY + 60}" font-size='0.9rem'>
+  <text class='rep anim anim--2' x="${x}" y="${
+		avatarOffsetY + 60
+	}" font-size='0.9rem'>
     ${formatLargeNumber(reputation)}
   </text>`
 }
 
-const formatBadges = (badges: {
-	bronze: number
-	silver: number
-	gold: number
-}) => {
+const formatBadges = (
+	badges: {
+		bronze: number
+		silver: number
+		gold: number
+	},
+	x: number
+) => {
 	return `<g>
-  <circle r="3" class='gold anim anim--3' cx="${500 - avatarOffsetX * 2}" cy="${
+  <circle r="3" class='gold anim anim--3' cx="${x}" cy="${
 		avatarOffsetY + 25
 	}" />
   <text class='gold anim anim--3' text-anchor="end" font-size='0.8rem' x="${
-		475 - avatarOffsetX * 2
+		x - 25
 	}" y="${avatarOffsetY + 30}">
     ${formatLargeNumber(badges.gold)}
   </text>
 
-  <circle r="3" class='silver anim anim--3' cx="${
-		500 - avatarOffsetX * 2
-	}" cy="${avatarOffsetY + 50}" />
+  <circle r="3" class='silver anim anim--3' cx="${x}" cy="${
+		avatarOffsetY + 50
+	}" />
   <text class='silver anim anim--3' text-anchor="end" font-size='0.8rem' x="${
-		475 - avatarOffsetX * 2
+		x - 25
 	}" y="${avatarOffsetY + 55}">
     ${formatLargeNumber(badges.silver)}
   </text>
 
-  <circle r="3" class='bronze anim anim--3' cx="${
-		500 - avatarOffsetX * 2
-	}" cy="${avatarOffsetY + 75}" />
+  <circle r="3" class='bronze anim anim--3' cx="${x}" cy="${
+		avatarOffsetY + 75
+	}" />
   <text class='bronze anim anim--3' text-anchor="end" font-size='0.8rem' x="${
-		475 - avatarOffsetX * 2
+		x - 25
 	}" y="${avatarOffsetY + 80}">
     ${formatLargeNumber(badges.bronze)}
   </text>

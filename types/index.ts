@@ -57,3 +57,10 @@ export type ThemeType = {
 	'text-accent': string
 	reputation: string
 }
+
+export type Options = {
+	rounded: boolean
+	showBadges: boolean
+	showTags: boolean
+	theme: ThemeType
+}
