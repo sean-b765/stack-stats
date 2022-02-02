@@ -33,62 +33,64 @@ export const formatSvg = async (
     </linearGradient>
 
     <style type="text/css">
-    @import url(http://fonts.googleapis.com/css?family=${options.theme.font});
+      @import url(http://fonts.googleapis.com/css?family=${
+				options.theme.font
+			}&amp;display=swap);
 
-    * {
-      font-family: ${options.theme.fontFamily};
-    }
-    .accent {
-      fill: ${options.theme['text-accent']};
-    }
-    .primary {
-      fill: ${options.theme['text-primary']};
-    }
-    .rep {
-      fill: ${options.theme.reputation};
-    }
-    
-    .gold {
-      fill: ${options.theme.gold};
-    }
-    .silver {
-      fill: ${options.theme.silver};
-    }
-    .bronze {
-      fill: ${options.theme.bronze};
-    }
-    
-    .anim {
-      opacity: 0;
-      animation: opacity 1s 0s linear forwards;
-    }
-    .anim--1 {
-      opacity: 0; 
-      animation: opacity 0.7s 1s linear forwards;
-    }
-    .anim--2 {
-      opacity: 0;
-      animation: opacity 0.7s 1.5s linear forwards;
-    }
-    .anim--3 {
-      opacity: 0;
-      animation: opacity 0.7s 2s linear forwards;
-    }
-    .anim--4 {
-      opacity: 0;
-      animation: opacity 0.7s 2.5s linear forwards;
-    }
-    
-    @keyframes opacity {
-      from {
+      * {
+        font-family: ${options.theme.fontFamily};
+      }
+      .accent {
+        fill: ${options.theme['text-accent']};
+      }
+      .primary {
+        fill: ${options.theme['text-primary']};
+      }
+      .rep {
+        fill: ${options.theme.reputation};
+      }
+      
+      .gold {
+        fill: ${options.theme.gold};
+      }
+      .silver {
+        fill: ${options.theme.silver};
+      }
+      .bronze {
+        fill: ${options.theme.bronze};
+      }
+      
+      .anim {
         opacity: 0;
-        transform: translateX(3px);
+        animation: opacity 1s 0s linear forwards;
       }
-      to {
-        opacity: 1;
-        transform: translateX(0);
+      .anim--1 {
+        opacity: 0; 
+        animation: opacity 0.7s 1s linear forwards;
       }
-    }
+      .anim--2 {
+        opacity: 0;
+        animation: opacity 0.7s 1.5s linear forwards;
+      }
+      .anim--3 {
+        opacity: 0;
+        animation: opacity 0.7s 2s linear forwards;
+      }
+      .anim--4 {
+        opacity: 0;
+        animation: opacity 0.7s 2.5s linear forwards;
+      }
+      
+      @keyframes opacity {
+        from {
+          opacity: 0;
+          transform: translateX(3px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
     </style>
     </defs>
 
