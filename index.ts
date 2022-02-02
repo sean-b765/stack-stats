@@ -1,3 +1,9 @@
+/**
+ * Author: Sean Boaden
+ * Date: 02/02/2022
+ * Description: Stackoverflow stat cards for use in a github README
+ */
+
 import cors from 'cors'
 import express, { Request, Response } from 'express'
 import axios from 'axios'

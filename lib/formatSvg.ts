@@ -1,3 +1,9 @@
+/**
+ * Author: Sean Boaden
+ * Date: 02/02/2022
+ * Description: Handles all the SVG generation
+ */
+
 import { SvgDetails, StackTags, ThemeType, Options } from '../types'
 import axios from 'axios'
 import { Themes } from './themes'
