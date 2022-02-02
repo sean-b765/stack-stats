@@ -36,11 +36,11 @@ app.get('/user/:id', async (req: Request, res: Response) => {
 		if (!stringToBoolean(String(showTags), true)) options.showTags = false
 		if (stringToBoolean(String(rounded), false)) options.rounded = true
 		if (
-			['sunset', 'dark', 'light', 'cyberpunk', 'retro'].includes(
+			['sunset', 'dark', 'light', 'cyberpunk', 'retro', 'elegant'].includes(
 				String(theme).toLowerCase()
 			)
 		) {
-			switch (theme) {
+			switch (String(theme).toLowerCase()) {
 				case 'sunset':
 					options.theme = Themes.SUNSET
 					break
@@ -56,14 +56,19 @@ app.get('/user/:id', async (req: Request, res: Response) => {
 				case 'retro':
 					options.theme = Themes.RETRO
 					break
+				case 'elegant':
+					options.theme = Themes.ELEGANT
+					break
 				default:
 					options.theme = Themes.SUNSET
 					break
 			}
 		}
 
-		const user = `https://api.stackexchange.com/2.3/users/${id}?site=stackoverflow&key=U4DMV*8nvpm3EOpvf69Rxw((`
-		const result = await axios.get(user, { method: 'GET' })
+		const result = await axios.get(
+			`https://api.stackexchange.com/2.3/users/${id}?site=stackoverflow&key=U4DMV*8nvpm3EOpvf69Rxw((`,
+			{ method: 'GET' }
+		)
 
 		const userData: StackAPIResponse = result.data
 
@@ -73,22 +78,25 @@ app.get('/user/:id', async (req: Request, res: Response) => {
 				.status(400)
 				.json({ message: `The account with Id ${id} does not exist` })
 
-		const tags = `https://api.stackexchange.com/2.3/users/${id}/tags?order=desc&sort=popular&site=stackoverflow`
-		const tagsResult = await axios.get(tags, { method: 'GET' })
+		const tagsResult = await axios.get(
+			`https://api.stackexchange.com/2.3/users/${id}/tags?order=desc&sort=popular&site=stackoverflow&key=U4DMV*8nvpm3EOpvf69Rxw((`,
+			{ method: 'GET' }
+		)
 
 		const tagsData: Array<StackTags> = tagsResult.data.items
 
 		const svg = await formatSvg(
 			userData.items[0] as SvgDetails,
 			tagsData,
-			Themes.SUNSET,
 			options
 		)
 
 		res.header('Content-Type', 'image/svg+xml')
 
 		res.status(200).send(svg)
-	} catch (err) {}
+	} catch (err) {
+		res.sendStatus(500)
+	}
 })
 
 const PORT = process.env.PORT || 5000

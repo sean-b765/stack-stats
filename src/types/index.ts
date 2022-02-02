@@ -56,6 +56,14 @@ export type ThemeType = {
 	'text-primary': string
 	'text-accent': string
 	reputation: string
+	gr1: string
+	gr2: string
+	font: string
+	fontFamily: string
+	fontSize: string
+	gold: string
+	silver: string
+	bronze: string
 }
 
 export type Options = {
