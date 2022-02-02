@@ -7,11 +7,11 @@
 import cors from 'cors'
 import express, { Request, Response } from 'express'
 import axios from 'axios'
-import { StackAPIResponse, SvgDetails, StackTags, Options } from './types'
-import { formatSvg } from './lib/formatSvg'
+import { StackAPIResponse, SvgDetails, StackTags, Options } from '../types'
+import { formatSvg } from '../lib/formatSvg'
 import { join } from 'path'
-import { Themes } from './lib/themes'
-import { stringToBoolean } from './lib/conversions'
+import { Themes } from '../lib/themes'
+import { stringToBoolean } from '../lib/conversions'
 
 const app = express()
 

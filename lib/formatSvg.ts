@@ -134,14 +134,14 @@ const formatTags = (tags: Array<StackTags>, x: number) => {
 const formatTheme = (theme: ThemeType) => {
 	switch (theme) {
 		case Themes.SUNSET:
-			return `<stop offset="0%" stop-color="#89216B"/>
-      <stop offset="100%" stop-color="#DA4453"/>`
+			return `<stop offset="0%" stop-color="#DA4453"/>
+      <stop offset="100%" stop-color="#89216B"/>`
 		case Themes.DARK:
 			return `<stop offset="0%" stop-color="#41295a"/>
       <stop offset="100%" stop-color="#2F0743"/>`
 		default:
-			return `<stop offset="0%" stop-color="#89216B"/>
-    <stop offset="100%" stop-color="#DA4453"/>`
+			return `<stop offset="0%" stop-color="#DA4453"/>
+      <stop offset="100%" stop-color="#89216B"/>`
 	}
 }
 
