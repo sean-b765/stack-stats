@@ -33,7 +33,7 @@ export const formatSvg = async (
     </linearGradient>
 
     <style type="text/css">
-      @import url(http://fonts.googleapis.com/css?family=${
+      @import url(https://fonts.googleapis.com/css?family=${
 				options.theme.font
 			}&amp;display=swap);
 
