@@ -33,12 +33,11 @@ export const formatSvg = async (
     </linearGradient>
 
     <style type="text/css">
-      @import url(https://fonts.googleapis.com/css?family=${
-				options.theme.font
-			}&amp;display=swap);
+      ${options.theme.fontSrc}
 
       * {
         font-family: ${options.theme.fontFamily};
+        font-weight: 400;
       }
       .accent {
         fill: ${options.theme['text-accent']};

@@ -58,9 +58,9 @@ export type ThemeType = {
 	reputation: string
 	gr1: string
 	gr2: string
-	font: string
 	fontFamily: string
 	fontSize: string
+	fontSrc: string
 	gold: string
 	silver: string
 	bronze: string
